@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-
+const bottomContainerHeight = 80.0;
+const rcColor =  Color(0xff1d1e33);
 class InputPage extends StatefulWidget {
+  const InputPage({Key? key}) : super(key: key);
+
   @override
-  _InputPageState createState() => _InputPageState();
+  InputPageState createState() => InputPageState();
 }
 
-class _InputPageState extends State<InputPage> {
+class InputPageState extends State<InputPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,52 +19,61 @@ class _InputPageState extends State<InputPage> {
         children: [
           Expanded(
               child: Row(
-            children: [
+            children: const [
               Expanded(
                 child: ReusableCard(
-                  colour: Color(0xff1d1e33),
+                  colour: rcColor,
                 ),
               ),
               Expanded(
                 child: ReusableCard(
-                  colour: Color(0xff1d1e33),
+                  colour: rcColor,
                 ),
               ),
             ],
           )),
-          Expanded(
-            child: ReusableCard(colour: Color(0xff1d1e33)),
+          const Expanded(
+            child: ReusableCard(colour: rcColor),
           ),
           Expanded(
-              child: Row(
-            children: [
-              Expanded(
-                child: ReusableCard(
-                  colour: Color(0xff1d1e33),
-                ),
-              ),
-              Expanded(
+            child: Row(
+              children: const [
+                Expanded(
                   child: ReusableCard(
-                colour: Color(0xff1d1e33),
-              )),
-            ],
-          )),
+                    colour: rcColor,
+                  ),
+                ),
+                Expanded(
+                  child: ReusableCard(
+                    colour: rcColor,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            color: const Color(0xffeb1555),
+            margin:const  EdgeInsets.only(top:10.0),
+            width: double.infinity,
+            height: bottomContainerHeight,
+          ),
         ],
       ),
     );
+
   }
 }
 
 class ReusableCard extends StatelessWidget {
-  ReusableCard({required this.colour});
+  const ReusableCard({Key? key, required this.colour}) : super(key: key);
 
-  Color colour;
+  final Color colour;
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(15.0),
       decoration: BoxDecoration(
-        color: const Color(0xff1d1e33),
+        color: rcColor,
         borderRadius: BorderRadius.circular(10.0),
       ),
     );
