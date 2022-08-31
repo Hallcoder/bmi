@@ -16,6 +16,8 @@ class InputPage extends StatefulWidget {
 class InputPageState extends State<InputPage> {
   late Genders selectedGender = Genders.none;
   int height = 180;
+  int weight = 60;
+  int age = 16;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,12 +84,13 @@ class InputPageState extends State<InputPage> {
                     ],
                   ),
                   Slider(
+                    //use sliderTheme as a parent to customize the slider's look
                     value: height.toDouble(),
                     activeColor: const Color(0xffeb1555),
                     inactiveColor: const Color(0xff8d8e98),
-                    min:120.0,
-                    max:250.0,
-                    onChanged: (double newValue){
+                    min: 120.0,
+                    max: 250.0,
+                    onChanged: (double newValue) {
                       setState(() {
                         height = newValue.toInt();
                       });
@@ -99,15 +102,18 @@ class InputPageState extends State<InputPage> {
           ),
           Expanded(
             child: Row(
-              children: const [
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
                 Expanded(
                   child: ReusableCard(
                     colour: kActiveColor,
+                    cardChild: buildColumn('WEIGHT',weight),
                   ),
                 ),
-                Expanded(
+                 Expanded(
                   child: ReusableCard(
                     colour: kActiveColor,
+                    cardChild: buildColumn('AGE',age),
                   ),
                 ),
               ],
@@ -118,9 +124,66 @@ class InputPageState extends State<InputPage> {
             margin: const EdgeInsets.only(top: 10.0),
             width: double.infinity,
             height: kBottomContainerHeight,
+            child: const Center(child: Text('Calculate', style: kNumberStyle)),
           ),
         ],
       ),
+    );
+  }
+  Column buildColumn(String label,int value) {
+    return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(label),
+                      Text(
+                        '$value',
+                        style: kNumberStyle,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children:  [
+                          RoundIconButton(
+                            child: const Icon(FontAwesomeIcons.minus),
+                            onPress:(){
+                              setState(() {
+                                value == weight ? weight--:age--;
+                              });
+                            }
+                          ),
+                          const SizedBox(
+                            width: 10.0,
+                          ),
+                          RoundIconButton(
+                            child: const Icon(FontAwesomeIcons.plus),
+                              onPress:(){
+                                setState(() {
+                                  value == weight ? weight++:age++;
+                                });
+                              }
+                          )
+                        ],
+                      )
+                    ],
+                  );
+  }
+}
+
+class RoundIconButton extends StatelessWidget {
+  const RoundIconButton({Key? key, required this.child, required this.onPress}) : super(key: key);
+  final Widget child;
+  final void Function() onPress;
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+      child: child,
+      textStyle: const TextStyle(
+        color: Colors.white,
+      ),
+      elevation: 6.0,
+      constraints: const BoxConstraints.tightFor(width: 56.0, height: 56.0),
+      onPressed:onPress,
+      shape: const CircleBorder(),
+      fillColor: const Color(0xff4c4f5e),
     );
   }
 }
