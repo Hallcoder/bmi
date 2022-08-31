@@ -1,11 +1,12 @@
+import 'package:bmi/calculator_brain.dart';
+import 'package:bmi/screens/results_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'reusable_Card.dart';
-import 'icon_content.dart';
-import 'constants.dart';
-
+import '../components/reusable_Card.dart';
+import '../components/icon_content.dart';
+import '../constants.dart';
+import '../components/bottom_button.dart';
 enum Genders { male, female, none }
-
 class InputPage extends StatefulWidget {
   const InputPage({Key? key}) : super(key: key);
 
@@ -119,13 +120,13 @@ class InputPageState extends State<InputPage> {
               ],
             ),
           ),
-          Container(
-            color: const Color(0xffeb1555),
-            margin: const EdgeInsets.only(top: 10.0),
-            width: double.infinity,
-            height: kBottomContainerHeight,
-            child: const Center(child: Text('Calculate', style: kNumberStyle)),
-          ),
+           BottomButton(buttonTitle: 'CALCULATE',onTap: (){
+             CalculatorBrain calc = CalculatorBrain(weight, height);
+             String bmiRes = calc.calculateBMI();
+             String res = calc.getResult();
+             String interpretation = calc.getInterpretation();
+             Navigator.push(context,MaterialPageRoute(builder: (context) => ResultsPage(bmiResult: bmiRes,resultText: res,interpretation: interpretation,)));
+           }),
         ],
       ),
     );
@@ -168,6 +169,7 @@ class InputPageState extends State<InputPage> {
   }
 }
 
+
 class RoundIconButton extends StatelessWidget {
   const RoundIconButton({Key? key, required this.child, required this.onPress}) : super(key: key);
   final Widget child;
@@ -175,7 +177,6 @@ class RoundIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
-      child: child,
       textStyle: const TextStyle(
         color: Colors.white,
       ),
@@ -184,6 +185,7 @@ class RoundIconButton extends StatelessWidget {
       onPressed:onPress,
       shape: const CircleBorder(),
       fillColor: const Color(0xff4c4f5e),
+      child: child,
     );
   }
 }
